@@ -1,4 +1,5 @@
-package Calculator;
+
+
 
 
 public class RomanNumbers extends Function {
@@ -9,7 +10,8 @@ public class RomanNumbers extends Function {
     private int result_int;
     private String sign = "";
     private String result_string;
-    private final String[] roman_letters_10 = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"};
+    private final String[] roman_letters_9 = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
+
 
     RomanNumbers(String value1, String value2) {
         this.romanValue1 = value1;
@@ -21,72 +23,83 @@ public class RomanNumbers extends Function {
         ostatok = n % 10;
         if (ostatok != 0) {
             try {
-                return convert_result_to_Romes(n - ostatok, 0) + roman_letters_10[ostatok - 1];
+                return convert_result_to_Romes(n - ostatok, 0) + roman_letters_9[ostatok - 1];
             } catch (ArrayIndexOutOfBoundsException e) {
                 sign = "-";
-                return convert_result_to_Romes(n - ostatok, 0) + roman_letters_10[(ostatok + 1) * -1];
+                return convert_result_to_Romes(n - ostatok, 0) + roman_letters_9[(ostatok + 1) * -1];
             }
         }
-        
+
         // Возможность вывести отрицательное римское число
+        if (n >= 100){
+            n = n - 100;
+            return convert_result_to_Romes(n,0) + "C";
+        }
+        if (n >= 50){
+            n = n - 50;
+            return  "L" + convert_result_to_Romes(n,0) ;
+        }
+        if (n >= 40) {
+            n = n - 50;
+            return convert_result_to_Romes(n,0) + "L";
+        }
         if (n > 0) {
             n = n - 10;
             return convert_result_to_Romes(n,0) + "X";
         } else if (n < 0) {
             n = n + 10;
             return convert_result_to_Romes(n,0) + "X";
-        }   else {
+        } else {
             return sign;
         }
     }
 
     @Override
     public void sum() {
-    	if (romanValue1_int <= 10 & romanValue2_int <= 10) {
-        result_int = romanValue1_int + romanValue2_int;
-        result_string = convert_result_to_Romes(result_int, result_int);
-    	} else
-    	{
-    		System.out.println("Некоректный ввод данных. Введите новые значения");
-    	}
+        if (romanValue1_int <= 10 & romanValue2_int <= 10) {
+            result_int = romanValue1_int + romanValue2_int;
+            result_string = convert_result_to_Romes(result_int, result_int);
+        } else
+        {
+            System.out.println("Некоректный ввод данных. Введите новые значения");
+        }
     }
 
     @Override
     public void sub() {
-    	if (romanValue1_int <= 10 & romanValue2_int <= 10) {
-        result_int = romanValue1_int - romanValue2_int;
-        result_string = convert_result_to_Romes(result_int, result_int);
-    	}
-    	else {
-    		System.out.println("Некоректный ввод данных. Введите новые значения");
-    	}
+        if (romanValue1_int <= 10 & romanValue2_int <= 10) {
+            result_int = romanValue1_int - romanValue2_int;
+            result_string = convert_result_to_Romes(result_int, result_int);
+        }
+        else {
+            System.out.println("Некоректный ввод данных. Введите новые значения");
+        }
     }
 
     @Override
     public void div() {
-    	if (romanValue1_int <= 10 & romanValue2_int <= 10) {
-        try {
-            result_int = romanValue1_int / romanValue2_int;
-            result_string = convert_result_to_Romes(result_int, result_int);
-        } catch (ArithmeticException e) {
-            System.out.print("Проверьте правильность ввода цифр. Вероятно введены и арабские и римские одновременно. ");
-            return;
-        }}
-    	else {
-    		System.out.println("Некоректный ввод данных. Введите новые значения");
-    	}
+        if (romanValue1_int <= 10 & romanValue2_int <= 10) {
+            try {
+                result_int = romanValue1_int / romanValue2_int;
+                result_string = convert_result_to_Romes(result_int, result_int);
+            } catch (ArithmeticException e) {
+                System.out.print("Проверьте правильность ввода цифр. Вероятно введены и арабские и римские одновременно. ");
+            }}
+        else {
+            System.out.println("Некоректный ввод данных. Введите новые значения");
+        }
 
     }
 
     @Override
     public void mul() {
-    	if (romanValue1_int <= 10 & romanValue2_int <= 10) {
-        result_int = romanValue1_int * romanValue2_int;
-        result_string = convert_result_to_Romes(result_int, result_int);
-    	}
-    	else {
-    		System.out.println("Некоректный ввод данных. Введите новые значения");
-    	}
+        if (romanValue1_int <= 10 & romanValue2_int <= 10) {
+            result_int = romanValue1_int * romanValue2_int;
+            result_string = convert_result_to_Romes(result_int, result_int);
+        }
+        else {
+            System.out.println("Некоректный ввод данных. Введите новые значения");
+        }
     }
 
     @Override
@@ -101,24 +114,30 @@ public class RomanNumbers extends Function {
         char[] value_char = romes_value.toCharArray();
         int[] values_int = new int[value_char.length];
         for (int i = 0; i < value_char.length; i++) {
-              switch (value_char[i]) {
-                  case 'I':
-                      values_int[i] = 1;
-                      break;
-                  case 'V':
-                      values_int[i] = 5;
-                      break;
-                  case 'X':
-                      values_int[i] = 10;
-                      break;
+            switch (value_char[i]) {
+                case 'I':
+                    values_int[i] = 1;
+                    break;
+                case 'V':
+                    values_int[i] = 5;
+                    break;
+                case 'X':
+                    values_int[i] = 10;
+                    break;
+                case 'L':
+                    values_int[i] = 50;
+                    break;
+                case 'C':
+                    values_int[i] = 100;
+                    break;
 
-                  default:
-                      System.out.println("Содержится неверный символ. Проверьте правильность ввода римских цифр:" + "\n" +
-                              "I = 1" + "\n" +
-                              "V = 5" + "\n" +
-                              "X = 10");
-                      break;
-              }
+                default:
+                    System.out.println("Содержится неверный символ. Проверьте правильность ввода римских цифр:" + "\n" +
+                            "I = 1" + "\n" +
+                            "V = 5" + "\n" +
+                            "X = 10");
+                    break;
+            }
         }
         int result = values_int[0];
         for (int i = 0; i < values_int.length && values_int.length > i + 1; i++) {
@@ -163,5 +182,3 @@ public class RomanNumbers extends Function {
         this.romanValue2_int = romes_value2_int;
     }
 }
-
-
